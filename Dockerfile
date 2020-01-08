@@ -1,13 +1,12 @@
-FROM ubuntu:18.04
+# Docker base image is Alpine Linux
+FROM docker:stable
 
 LABEL author="d.sipe@jobtarget.com"
 
-RUN apt-get update \
-    && apt-get install -y python3-pip
+RUN apk add --no-cache curl jq python py-pip \
+    && pip install awscli
 
-RUN pip3 install awscli --upgrade
-
-RUN adduser --disabled-login --gecos '' aws
+RUN adduser --disabled-password --gecos '' aws
 USER aws
 
 WORKDIR /home/aws
